@@ -104,6 +104,14 @@ target_include_directories(l2lidar_node PUBLIC
   $<INSTALL_INTERFACE:include>
 )
 
+# Embed an RPATH so the binary resolves to the Qt 6.10 install at runtime.
+# Without this, Ubuntu 24.04's apt-installed Qt 6.4 (in /usr/lib) is picked
+# up by the loader and the binary dies on the Qt_6.10 symbol version.
+set_target_properties(l2lidar_node PROPERTIES
+  BUILD_WITH_INSTALL_RPATH TRUE
+  INSTALL_RPATH "${QT610_PATH}/lib"
+)
+
 # ============================
 # Install
 # ============================
