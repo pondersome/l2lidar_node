@@ -412,7 +412,9 @@ void L2LidarNode::onPointCloudReceived()
     sensor_msgs::PointCloud2Iterator<float> iter_z(cloud, "z");
     sensor_msgs::PointCloud2Iterator<float> iter_i(cloud, "intensity");
     sensor_msgs::PointCloud2Iterator<float> iter_r(cloud, "range");
-    sensor_msgs::PointCloud2Iterator<float> iter_t(cloud, "time");
+    // Field declared FLOAT64 above; iterator must match width or upper
+    // 4 bytes of every 8-byte slot stay uninitialized.
+    sensor_msgs::PointCloud2Iterator<double> iter_t(cloud, "time");
 
     if(UseAggFrame) {
         modifier.resize(aggframe.size());
